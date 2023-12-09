@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tsunami Forecasting</title>
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}"> -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/wave.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #333333;
+        }
+
+        .container {
+            display: flex;
+            gap: 1rem;
+            flex-direction: column;
+            align-items: center;
+            background-color: #CCCCCC;
+            border-radius: 2rem;
+            margin: 1rem auto;
+            padding: 0.5rem;
+            max-width: 70vw;
+        }
+
+        .form-items {
+            width: 40rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+
+        }
+
+        h1 {
+            color: #333333;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <h1 class="text-center">Tsunami Forecasting</h1>
+        </div>
+        <div>
+            <form action="/predict" method="POST">
+                <div class="form-items">
+                    <label for="algorithm">Algorithm used to calculate the preferred magnitude:</label>
+                    <select class="form-select" id="algorithm" name="algorithm" title="algorithm" required>
+                        <option selected disabled value="">Select the algorithm</option>
+                        <option value='mww'>mww</option>
+                        <option value='mwc'>mwc</option>
+                        <option value='mwb'>mwb</option>
+                        <option value='mw'>mw</option>
+                        <option value='Mi'>Mi</option>
+                        <option value='ms'>ms</option>
+                        <option value='mb'>mb</option>
+                        <option value='md'>md</option>
+                        <option value='ml'>ml</option>
+                    </select>
+                </div>
+                <div class="form-items">
+                    <label for="magnitude">Magnitude:</label>
+                    <input type="number" name="magnitude" step="0.01" class="form-control" required>
+                </div>
+                <div class="form-items">
+                    <label for="cdi">CDI:</label>
+                    <input type="number" name="cdi" step="0.001" class="form-control"
+                        placeholder="The maximum reported intensity" required>
+                </div>
+                <div class="form-items">
+                    <label for="mmi">MMI:</label>
+                    <input type="number" name="mmi" step="0.001" class="form-control"
+                        placeholder="The maximum estimated instrumental intensity for the event" required>
+                </div>
+                <div class="form-items">
+                    <label for="sig">SIG:</label>
+                    <input type="number" name="sig" min='600' max='3000' step="0.1" class="form-control"
+                        placeholder="A number describing how significant the event(600 to 3000)" required>
+                </div>
+                <div class="form-items">
+                    <label for="nst">NST:</label>
+                    <input type="number" name="nst" min='0' max="1000" class="form-control"
+                        placeholder="The total number of seismic stations used to determine earthquake location."
+                        required>
+                </div>
+                <div class="form-items">
+                    <label for="dmin">Dmin:</label>
+                    <input type="number" name="dmin" min="0" max="18" step="0.001" class="form-control"
+                        placeholder="Horizontal distance from the epicenter to the nearest station" required>
+                </div>
+                <div class="form-items">
+                    <label for="gap">Gap:</label>
+                    <input type="number" name="gap" min="0" max="250" step="0.1" class="form-control"
+                        placeholder="The largest azimuthal gap between azimuthally adjacent stations (in degrees)"
+                        required>
+                </div>
+                <div class="form-items">
+                    <label for="depth">Depth:</label>
+                    <input type="number" name="depth" min="2.5" max="670" step="0.1" class="form-control"
+                        placeholder="The depth where the earthquake begins to rupture" required>
+                </div>
+                <div class="form-items">
+                    <label for="latitude">Latitude:</label>
+                    <input type="number" name="latitude" min="-61.848400" max="71.631200" step="0.0001"
+                        class="form-control" required>
+                </div>
+                <div class="form-items">
+                    <label for="longitude">Longitude:</label>
+                    <input type="number" name="longitude" min="-179.968000" max="179.662000" step="0.0001"
+                        class="form-control" required>
+                </div>
+                <div class="button">
+                    <input type="submit" value="Forecast" class="btn btn-lg mt-3"
+                        style="width: 20rem; background-color: #FFD700;">
+                </div>
+            </form>
+</body>
+
+</html>
