@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tsunami Forecasting</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/wave.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { background-color: #333333; }
+        .container { display: flex; gap: 1rem; flex-direction: column; align-items: center; background-color: #CCCCCC; border-radius: 2rem; margin: 1rem auto; padding: 1.5rem; width: 90%;height: 80vh; }
+        .form-items { width: 100%; margin: 0.5rem; }
+        .form-group { display: flex; gap: 2rem; justify-content: center; width: 60rem;; }
+        .form-column { flex: 1;}
+        h1 { color: #333333; font-size: 2.5rem; font-weight: bold; }
+        .fill-button { width: 100%; background-color: #6c757d; color: white; padding: 10px; margin-bottom: 10px; }
+        .forecast-button { width: 100%; background-color: #FFD700; color: black; padding: 10px; }
+    </style>
+    <script>
+        function fillTestData() {
+            document.getElementById('algorithm').value = 'mww';
+            document.querySelector('input[name="magnitude"]').value = '7.0';
+            document.querySelector('input[name="cdi"]').value = '3.5';
+            document.querySelector('input[name="mmi"]').value = '5.0';
+            document.querySelector('input[name="sig"]').value = '1000';
+            document.querySelector('input[name="nst"]').value = '20';
+            document.querySelector('input[name="dmin"]').value = '0.2';
+            document.querySelector('input[name="gap"]').value = '180';
+            document.querySelector('input[name="depth"]').value = '10';
+            document.querySelector('input[name="latitude"]').value = '-9.7031';
+            document.querySelector('input[name="longitude"]').value = '160.2016';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <h1 class="text-center">Tsunami Forecasting</h1>
+        </div>
+        <div>
+            <form action="/predict" method="POST">
+               
+                <div class="form-items">
+                    <label for="algorithm">Algorithm used to calculate the preferred magnitude:</label>
+                    <select class="form-select" id="algorithm" name="algorithm" title="algorithm" required>
+                        <option selected disabled value="">Select the algorithm</option>
+                        <option value='mww'>mww</option>
+                        <option value='mwc'>mwc</option>
+                        <option value='mwb'>mwb</option>
+                        <option value='mw'>mw</option>
+                        <option value='Mi'>Mi</option>
+                        <option value='ms'>ms</option>
+                        <option value='mb'>mb</option>
+                        <option value='md'>md</option>
+                        <option value='ml'>ml</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <div class="form-column">
+                        <div class="form-items">
+                            <label for="magnitude">Magnitude:</label>
+                            <input type="number" name="magnitude" step="0.01" class="form-control" required>
+                        </div>
+                        <div class="form-items">
+                            <label for="cdi">CDI:</label>
+                            <input type="number" name="cdi" step="0.001" class="form-control" placeholder="The maximum reported intensity" required>
+                        </div>
+                        <div class="form-items">
+                            <label for="mmi">MMI:</label>
+                            <input type="number" name="mmi" step="0.001" class="form-control" placeholder="The maximum estimated instrumental intensity for the event" required>
+                        </div>
+                        <div class="form-items">
+                            <label for="sig">SIG:</label>
+                            <input type="number" name="sig" min='600' max='3000' step="0.1" class="form-control" placeholder="A number describing how significant the event (600 to 3000)" required>
+                        </div>
+                        <div class="form-items">
+                            <label for="nst">NST:</label>
+                            <input type="number" name="nst" min='0' max="1000" class="form-control" placeholder="The total number of seismic stations used to determine earthquake location." required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-column">
+                        <div class="form-items">
+                            <label for="dmin">Dmin:</label>
+                            <input type="number" name="dmin" min="0" max="18" step="0.001" class="form-control" placeholder="Horizontal distance from the epicenter to the nearest station" required>
+                        </div>
+                        <div class="form-items">
+                            <label for="gap">Gap:</label>
+                            <input type="number" name="gap" min="0" max="250" step="0.1" class="form-control" placeholder="The largest azimuthal gap between azimuthally adjacent stations (in degrees)" required>
+                        </div>
+                        <div class="form-items">
+                            <label for="depth">Depth:</label>
+                            <input type="number" name="depth" min="2.5" max="670" step="0.1" class="form-control" placeholder="The depth where the earthquake begins to rupture" required>
+                        </div>
+                        <div class="form-items">
+                            <label for="latitude">Latitude:</label>
+                            <input type="number" name="latitude" min="-61.848400" max="71.631200" step="0.0001" class="form-control" required>
+                        </div>
+                        <div class="form-items">
+                            <label for="longitude">Longitude:</label>
+                            <input type="number" name="longitude" min="-179.968000" max="179.662000" step="0.0001" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+
+               
+                <div class="d-flex flex-column align-items-center mt-4" style="width: 100%; margin: auto;">
+                    <button type="button" class="btn fill-button" onclick="fillTestData()">Fill with Test Data</button>
+                    <input type="submit" value="Forecast" class="btn btn-lg forecast-button mt-3">
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

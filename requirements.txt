@@ -1,0 +1,7 @@
+numpy==1.26.4
+pandas==2.2.2
+seaborn
+scikit-learn==1.2.0
+flask==3.0.3
+imblearn
+xgboost==2.0.3
